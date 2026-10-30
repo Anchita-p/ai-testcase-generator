@@ -27,13 +27,15 @@ def _chat_model(name: str, temperature: float) -> ChatGoogleGenerativeAI:
     )
 
 
-def get_llm(temperature: float = 0.3):
+def get_llm(temperature: float = 0.3, model: str | None = None, use_fallback: bool = True):
     """Low temperature = consistent, focused output (a little creativity helps find edge cases).
 
     Has a timeout and few retries, and switches to FALLBACK_MODEL if the main model fails.
+    Pass `model` to pick a specific model, and use_fallback=False to test one model alone.
     """
-    primary = _chat_model(config.CHAT_MODEL, temperature)
-    if config.FALLBACK_MODEL and config.FALLBACK_MODEL != config.CHAT_MODEL:
+    name = model or config.CHAT_MODEL
+    primary = _chat_model(name, temperature)
+    if use_fallback and config.FALLBACK_MODEL and config.FALLBACK_MODEL != name:
         return primary.with_fallbacks([_chat_model(config.FALLBACK_MODEL, temperature)])
     return primary
 

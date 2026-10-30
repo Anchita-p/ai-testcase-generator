@@ -1,0 +1,41 @@
+{
+  "User login": {
+    "requirements": ["LOG-01", "LOG-02", "LOG-03", "LOG-04", "LOG-05", "LOG-06"],
+    "checks": [
+      {"req": "LOG-02", "contains": ["invalid email or password"]},
+      {"req": "LOG-03", "contains": ["5", "15"]},
+      {"req": "LOG-04", "contains": ["30"]},
+      {"req": "LOG-05", "contains": ["back"]},
+      {"req": "LOG-06", "contains": ["case"]}
+    ],
+    "expected_types": ["Positive", "Negative", "Boundary"]
+  },
+  "User registration": {
+    "requirements": ["REG-01", "REG-02", "REG-03", "REG-04", "REG-05", "REG-06"],
+    "checks": [
+      {"req": "REG-02", "contains": ["50"]},
+      {"req": "REG-03", "contains": ["already exists"]},
+      {"req": "REG-04", "contains": ["20", "special"]},
+      {"req": "REG-05", "contains": ["do not match"]},
+      {"req": "REG-06", "contains": ["welcome", "registration successful"]}
+    ],
+    "expected_types": ["Positive", "Negative", "Boundary"]
+  },
+  "Profile photo upload": {
+    "requirements": ["PRF-02"],
+    "checks": [
+      {"req": "PRF-02", "contains": ["2 mb|2mb|2048", "png", "jpg|jpeg"]},
+      {"req": "PRF-02", "contains": ["please upload a jpg or png image under 2 mb"]}
+    ],
+    "expected_types": ["Positive", "Negative", "Boundary"]
+  },
+  "Recipe search by ingredients": {
+    "requirements": ["SRC-02", "SRC-04", "SRC-05"],
+    "checks": [
+      {"req": "SRC-02", "contains": ["10"]},
+      {"req": "SRC-04", "contains": ["no recipes found"]},
+      {"req": "SRC-05", "contains": ["100"]}
+    ],
+    "expected_types": ["Positive", "Negative", "Boundary"]
+  }
+}
