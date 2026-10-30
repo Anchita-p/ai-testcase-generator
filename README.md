@@ -107,6 +107,18 @@ pytest
 
 Unit tests replace the real LLM and embeddings with fakes, so they are deterministic, fast, free and run offline. They cover document loading, chunking, retrieval, prompt content, LLM-output validation (bad JSON, missing fields, odd labels, duplicates), input limits, Excel/CSV export and script extraction.
 
+## Evaluation
+
+`python -m testgen.evaluate --models <model1>,<model2>` generates test cases for four features of the sample SRS and scores them against a hand-written reference (`evaluation/reference.json`): requirement coverage, key checks (e.g. login lockout must mention 5 attempts and 15 minutes), test-type variety and invented requirement IDs.
+
+| Model | Valid runs | Req. coverage | Key checks passed | Types present | Invented IDs | Avg seconds |
+|---|---|---|---|---|---|---|
+| gemini-3.5-flash-lite | 4/4 | 100% | 100% | 100% | 0 | 5.2 |
+| gemini-3.1-flash-lite | 4/4 | 100% | 80% | 92% | 0 | 4.2 |
+| gemini-3.5-flash | 1/4 | 100% | 100% | 100% | 0 | 13.2 |
+
+Small sample (one run per feature), so read it as a quick quality signal, not proof. `gemini-3.5-flash` often returned "503 overloaded" during the run, so its row is not comparable. This is why calls have a timeout and a fallback model.
+
 ## Limitations
 
 - Generated cases are a **first draft for a tester to review**, not a replacement for one.
